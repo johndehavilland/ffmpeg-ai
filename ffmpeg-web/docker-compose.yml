@@ -1,0 +1,21 @@
+version: '3'
+services:
+  ffmpeg-api:
+    container_name: ffmpeg-api
+    ports:
+        - 5000:5000
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+      
+    
+    restart: always
+    volumes:
+      - AFSMount:/mnt/data
+volumes:
+  AFSMount:
+    driver: local
+    driver_opts:
+      type: cifs
+      o: "mfsymlinks,vers=3.0,username=${AFS_NAME},password=${AFS_KEY},addr=${AFS_NAME}.file.core.windows.net"
+      device: "//${AFS_NAME}.file.core.windows.net/${AFS_CONTAINER}"
